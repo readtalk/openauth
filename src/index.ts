@@ -42,7 +42,7 @@ export default {
 		// The real OpenAuth server code starts here:
 		return issuer({
 			storage: CloudflareStorage({
-				namespace: env.AUTH_STORAGE as CloudflareStorageOptions["namespace"],
+				namespace: env.DATA_KV as CloudflareStorageOptions["namespace"],
 			}),
 			subjects,
 			providers: {
@@ -62,8 +62,8 @@ export default {
 				),
 			},
 			theme: {
-				title: "myAuth",
-				primary: "#0051c3",
+				title: "OpenAuth",
+				primary: "#000000",
 				favicon: "https://workers.cloudflare.com//favicon.ico",
 				logo: {
 					dark: "https://imagedelivery.net/wSMYJvS3Xw-n339CbDyDIA/db1e5c92-d3a6-4ea9-3e72-155844211f00/public",
@@ -81,7 +81,7 @@ export default {
 } satisfies ExportedHandler<Env>;
 
 async function getOrCreateUser(env: Env, email: string): Promise<string> {
-	const result = await env.AUTH_DB.prepare(
+	const result = await env.DATA_DB.prepare(
 		`
 		INSERT INTO user (email)
 		VALUES (?)
