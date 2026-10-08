@@ -4,8 +4,8 @@ import {
 	CloudflareStorage,
 	type CloudflareStorageOptions,
 } from "@openauthjs/openauth/storage/cloudflare";
-import { PasswordProvider } from "@openauthjs/openauth/provider/password";
-import { PasswordUI } from "@openauthjs/openauth/ui/password";
+import { CodeProvider } from "@openauthjs/openauth/provider/code";
+import { CodeUI } from "@openauthjs/openauth/ui/code";
 import { createSubjects } from "@openauthjs/openauth/subject";
 import { object, string } from "valibot";
 
@@ -47,8 +47,8 @@ export default {
 			}),
 			subjects,
 			providers: {
-				password: PasswordProvider(
-					PasswordUI({
+				code: CodeProvider(
+					CodeUI({
 						// eslint-disable-next-line @typescript-eslint/require-await
 						sendCode: async (email, code) => {
 							// This is where you would email the verification code to the
@@ -74,7 +74,7 @@ export default {
 			},
 			success: async (ctx, value) => {
 				return ctx.subject("user", {
-					id: await getOrCreateUser(env, value.email),
+					id: await getOrCreateUser(env, value.claims.email),
 				});
 			},
 		}).fetch(request, env, ctx);
