@@ -1,11 +1,10 @@
-//
 import { issuer } from "@openauthjs/openauth";
 import {
 	CloudflareStorage,
 	type CloudflareStorageOptions,
 } from "@openauthjs/openauth/storage/cloudflare";
-import { CodeProvider } from "@openauthjs/openauth/provider/code";
-import { CodeUI } from "@openauthjs/openauth/ui/code";
+import { PasswordProvider } from "@openauthjs/openauth/provider/password";
+import { PasswordUI } from "@openauthjs/openauth/ui/password";
 import { createSubjects } from "@openauthjs/openauth/subject";
 import { object, string } from "valibot";
 
@@ -47,8 +46,8 @@ export default {
 			}),
 			subjects,
 			providers: {
-				code: CodeProvider(
-					CodeUI({
+				password: PasswordProvider(
+					PasswordUI({
 						// eslint-disable-next-line @typescript-eslint/require-await
 						sendCode: async (email, code) => {
 							// This is where you would email the verification code to the
