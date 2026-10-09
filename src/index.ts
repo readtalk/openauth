@@ -73,7 +73,7 @@ export default {
 			},
 			success: async (ctx, value) => {
 				return ctx.subject("user", {
-					id: await getOrCreateUser(env, value.claims.email),
+					id: await getOrCreateUser(env, value.email),
 				});
 			},
 		}).fetch(request, env, ctx);
